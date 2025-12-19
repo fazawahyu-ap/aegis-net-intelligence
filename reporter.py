@@ -2,7 +2,6 @@ import json
 import datetime
 
 def save_report(data, filename="report.html"):
-    # Parsing Data
     if isinstance(data, dict):
         scan_results = data.get('scan_results', [])
         deep_recon = data.get('deep_recon', [])
@@ -18,7 +17,6 @@ def save_report(data, filename="report.html"):
     
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    # --- CSS YANG SANGAT SEDERHANA & BERSIH ---
     html_content = f"""
     <!DOCTYPE html>
     <html>
@@ -26,9 +24,9 @@ def save_report(data, filename="report.html"):
         <title>Scan Log: {timestamp}</title>
         <style>
             body {{
-                background-color: #111; /* Hitam Doff */
-                color: #ddd; /* Abu-abu terang (tidak bikin sakit mata) */
-                font-family: 'Consolas', 'Monaco', monospace; /* Font Coding */
+                background-color: #111;
+                color: #ddd;
+                font-family: 'Consolas', 'Monaco', monospace;
                 font-size: 13px;
                 padding: 30px;
                 line-height: 1.5;
@@ -42,7 +40,7 @@ def save_report(data, filename="report.html"):
             }}
             h2 {{
                 font-size: 14px;
-                color: #888; /* Warna abu-abu untuk sub-judul */
+                color: #888;
                 margin-top: 40px;
                 text-transform: uppercase;
                 letter-spacing: 1px;
@@ -50,12 +48,11 @@ def save_report(data, filename="report.html"):
             .entry {{
                 margin-bottom: 15px;
                 padding-left: 15px;
-                border-left: 2px solid #333; /* Garis tepi tipis */
+                border-left: 2px solid #333;
             }}
-            .danger {{ color: #ff5555; font-weight: bold; }} /* Merah Soft */
-            .safe {{ color: #50fa7b; }} /* Hijau Soft */
-            .info {{ color: #8be9fd; }} /* Biru Soft */
-            
+            .danger {{ color: #ff5555; font-weight: bold; }}
+            .safe {{ color: #50fa7b; }}
+            .info {{ color: #8be9fd; }}
             pre {{
                 background-color: #1a1a1a;
                 padding: 10px;
@@ -84,10 +81,7 @@ def save_report(data, filename="report.html"):
     else:
         html_content += """<div class="entry"><span class="safe">[OK]</span> No automated vulnerabilities (SQLi/XSS) found.</div>"""
 
-    # --- BAGIAN 2: DEEP RECON ---
-    html_content += """
-        <h2>[02] Sensitive File Recon</h2>
-    """
+    html_content += """<h2>[02] Sensitive File Recon</h2>"""
     
     if deep_recon:
         for item in deep_recon:
@@ -100,10 +94,7 @@ def save_report(data, filename="report.html"):
     else:
         html_content += """<div class="entry"><span class="safe">[OK]</span> No sensitive files exposed.</div>"""
 
-    # --- BAGIAN 3: NETWORK SCAN ---
-    html_content += """
-        <h2>[03] Network Infrastructure</h2>
-    """
+    html_content += """<h2>[03] Network Infrastructure</h2>"""
 
     if scan_results:
         for item in scan_results:
@@ -121,7 +112,6 @@ def save_report(data, filename="report.html"):
                     html_content += f"- {v['id']}: {v.get('summary', 'No desc')[:90]}...<br>"
                 html_content += "</div>"
             
-            # Tampilkan banner hanya jika ada isinya
             if item.get('banner'):
                 html_content += f"<pre>{item['banner']}</pre>"
             
@@ -129,12 +119,9 @@ def save_report(data, filename="report.html"):
     else:
         html_content += """<div class="entry">[-] No open ports detected.</div>"""
 
-    html_content += """
-    </body>
-    </html>
-    """
+    html_content += """</body></html>"""
 
     with open(filename, "w") as f:
         f.write(html_content)
     
-    print(f"\n[✔] Laporan Simpel berhasil dibuat: {filename}")
+    print(f"\n[✔] Report generated: {filename}")
