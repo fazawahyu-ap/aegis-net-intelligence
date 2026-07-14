@@ -1,4 +1,4 @@
-# 🛡️ Aegis Network & Web Intelligence Suite
+# 🛡️ Aegis Network & Web Intelligence Suite (App py. Tools by Faza)
 
 **Aegis** is an advanced Python-based security auditing tool designed for automated reconnaissance and vulnerability assessment. It combines network infrastructure scanning with web application security testing (DAST).
 
